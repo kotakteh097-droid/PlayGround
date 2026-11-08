@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#07110e">
+  <meta name="description" content="Free Fire 2D — a fast top-down battle royale. Drop in, loot up, outlast the storm.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2307110e'/%3E%3Cpath d='M18 14h30v9H28v8h17v9H28v10H18z' fill='%23ff8a24'/%3E%3C/svg%3E">
+  <title>FREE FIRE 2D — Battle Royale</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <canvas id="game" aria-label="Free Fire 2D game arena"></canvas>
+
+  <div id="vignette" aria-hidden="true"></div>
+  <div id="scanlines" aria-hidden="true"></div>
+  <div id="damageFlash" aria-hidden="true"></div>
+
+  <div id="menu" class="screen active">
+    <header class="menu-top">
+      <div class="brand">
+        <span class="brand-mark">FF</span>
+        <span class="brand-copy"><b>FREE FIRE</b><small>2D BATTLE ROYALE</small></span>
+      </div>
+      <div class="menu-top-actions">
+        <button class="icon-btn" id="menuSound" aria-label="Toggle sound" title="Sound">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm-2.5-7v2.1a7 7 0 0 1 0 9.8V19a9 9 0 0 0 0-14z"/></svg>
+        </button>
+        <button class="icon-btn" id="menuFullscreen" aria-label="Fullscreen" title="Fullscreen">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4V4zm10 0h6v6h-2V6h-4V4zM4 14h2v4h4v2H4v-6zm14 0h2v6h-6v-2h4v-4z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="hero">
+      <section class="hero-copy">
+        <div class="eyebrow"><span class="live-dot"></span> SOLO BATTLE ROYALE <span class="eyebrow-rule"></span> 24 PLAYERS</div>
+        <h1>FREE<br><em>FIRE</em><span class="title-2d">2D</span></h1>
+        <p class="tagline">Drop in. Loot up. <strong>Outlast the storm.</strong></p>
+        <p class="intro">A fast, tactical top-down battle royale. Only one operator leaves Isla Caliente.</p>
+
+        <div class="deploy-row">
+          <button id="deployBtn" class="deploy-btn">
+            <span class="deploy-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7L8 5z"/></svg>
+            </span>
+            <span class="deploy-label"><b>DEPLOY NOW</b><small>ENTER THE FIRE ZONE</small></span>
+            <span class="deploy-arrow">↗</span>
+          </button>
+          <button id="helpBtn" class="ghost-btn">HOW TO PLAY</button>
+        </div>
+
+        <div class="quick-stats">
+          <div><span>MAP</span><b>ISLA CALIENTE</b></div>
+          <div><span>MODE</span><b>SOLO · SURVIVAL</b></div>
+          <div><span>MATCH</span><b>≈ 5 MIN</b></div>
+        </div>
+      </section>
+
+      <aside class="hero-panel">
+        <div class="panel-head">
+          <span>DEPLOYMENT BRIEF</span>
+          <span class="status-chip"><i></i> READY</span>
+        </div>
+        <div class="radar-wrap">
+          <svg class="radar" viewBox="0 0 420 420" aria-hidden="true">
+            <defs>
+              <radialGradient id="radarGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ff7a1a" stop-opacity=".24"/>
+                <stop offset="58%" stop-color="#ff7a1a" stop-opacity=".05"/>
+                <stop offset="100%" stop-color="#ff7a1a" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="islandFill" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#325d46"/>
+                <stop offset="100%" stop-color="#18382e"/>
+              </linearGradient>
+            </defs>
+            <circle cx="210" cy="210" r="196" fill="url(#radarGlow)"/>
+            <circle cx="210" cy="210" r="186" fill="none" stroke="#4b6b59" stroke-opacity=".5"/>
+            <circle cx="210" cy="210" r="144" fill="none" stroke="#4b6b59" stroke-opacity=".42" stroke-dasharray="2 9"/>
+            <circle cx="210" cy="210" r="100" fill="none" stroke="#4b6b59" stroke-opacity=".35"/>
+            <circle cx="210" cy="210" r="56" fill="none" stroke="#4b6b59" stroke-opacity=".3"/>
+            <path d="M210 14v392M14 210h392" stroke="#4b6b59" stroke-opacity=".18"/>
+            <path d="M65 128c26-30 65-46 105-45 21 1 37 9 57 7 25-2 38-17 64-14 33 3 55 25 66 54 10 27 5 58-9 83-14 26-37 42-57 63-20 22-35 51-64 58-31 8-63-7-86-29-24-23-33-55-51-82-16-25-42-42-44-70-1-8 1-17 5-25z" fill="url(#islandFill)" stroke="#83a98b" stroke-opacity=".65" stroke-width="1.5"/>
+            <path d="M94 165c32-17 67-8 101-1 42 9 84 3 123 17 23 8 43 24 53 46" fill="none" stroke="#d0ae72" stroke-opacity=".5" stroke-width="3" stroke-dasharray="5 6"/>
+            <path d="M130 292c35-20 59-50 94-62 36-13 79-3 108-28" fill="none" stroke="#d0ae72" stroke-opacity=".42" stroke-width="2.5" stroke-dasharray="4 7"/>
+            <g fill="#ff8a2b">
+              <circle cx="158" cy="155" r="4"/>
+              <circle cx="286" cy="286" r="4"/>
+              <circle cx="278" cy="127" r="3"/>
+            </g>
+            <g fill="#ff5d3d">
+              <circle cx="115" cy="232" r="3" class="ping p1"/>
+              <circle cx="305" cy="190" r="3" class="ping p2"/>
+              <circle cx="210" cy="320" r="3" class="ping p3"/>
+            </g>
+            <g class="radar-player">
+              <circle cx="210" cy="210" r="17" fill="#ff7a1a" fill-opacity=".14"/>
+              <path d="M210 196l11 25-11-6-11 6z" fill="#ff8a2b" stroke="#fff" stroke-width="1.5"/>
+            </g>
+            <path class="radar-sweep" d="M210 210 L210 30 A180 180 0 0 1 342 82 Z" fill="#ff8a2b" fill-opacity=".055"/>
+          </svg>
+          <div class="radar-label top">NORTH RIDGE</div>
+          <div class="radar-label bottom">CINDER DOCKS</div>
+          <div class="radar-badge"><span>24</span><small>OPERATORS</small></div>
+        </div>
+        <div class="brief-grid">
+          <div><span>DROP ZONE</span><b>RANDOM</b></div>
+          <div><span>STORM</span><b>CLOSING</b></div>
+          <div><span>LOADOUT</span><b>SCAVENGE</b></div>
+          <div><span>VICTORY</span><b>LAST ALIVE</b></div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="menu-bottom">
+      <div class="controls-strip">
+        <span><kbd>WASD</kbd> MOVE</span>
+        <span><kbd>MOUSE</kbd> AIM</span>
+        <span><kbd>CLICK</kbd> FIRE</span>
+        <span><kbd>R</kbd> RELOAD</span>
+        <span><kbd>E</kbd> LOOT</span>
+        <span><kbd>G</kbd> GLOO WALL</span>
+      </div>
+      <div class="build-tag">ORIGINAL 2D BUILD <span>·</span> NO DOWNLOAD</div>
+    </footer>
+  </div>
+
+  <div id="help" class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="modal-card">
+      <button class="modal-close" id="helpClose" aria-label="Close">×</button>
+      <div class="eyebrow">FIELD MANUAL</div>
+      <h2 id="helpTitle">SURVIVE THE FIRE</h2>
+      <div class="help-grid">
+        <section>
+          <h3><span>01</span> MOVE &amp; AIM</h3>
+          <p><kbd>WASD</kbd> or <kbd>ARROWS</kbd> to move. Aim with the mouse and <kbd>LEFT CLICK</kbd> to fire. <kbd>SHIFT</kbd> sprints; <kbd>SPACE</kbd> combat-slides.</p>
+        </section>
+        <section>
+          <h3><span>02</span> LOOT &amp; SURVIVE</h3>
+          <p>Walk near glowing drops and press <kbd>E</kbd>. Swap between two weapons with <kbd>1</kbd> / <kbd>2</kbd> or the mouse wheel. Press <kbd>H</kbd> to heal and <kbd>G</kbd> to deploy a gloo wall.</p>
+        </section>
+        <section>
+          <h3><span>03</span> BEAT THE STORM</h3>
+          <p>The safe zone shrinks in stages. Stay inside the blue ring — the red storm drains health fast. Use buildings, trees and gloo walls for cover.</p>
+        </section>
+        <section>
+          <h3><span>04</span> LAST ONE STANDING</h3>
+          <p>There are 24 operators on the island. Eliminate rivals or let the storm do the work. When the smoke clears, only one name is left on the board.</p>
+        </section>
+      </div>
+      <div class="help-tip"><b>TIP</b> Shots reveal your position on the minimap. Reload behind cover, not in the open.</div>
+      <button class="deploy-btn compact" id="helpDeploy"><span class="deploy-label"><b>I'M READY</b><small>DEPLOY TO ISLA CALIENTE</small></span><span class="deploy-arrow">↗</span></button>
+    </div>
+  </div>
+
+  <div id="hud" class="screen">
+    <div class="hud-top">
+      <div class="hud-left">
+        <div class="mini-brand"><span>FF</span> 2D</div>
+        <div class="stat-chip"><small>ALIVE</small><b id="aliveCount">24</b></div>
+        <div class="stat-chip accent"><small>ELIMS</small><b id="killCount">0</b></div>
+      </div>
+      <div class="zone-banner">
+        <div class="zone-top"><span id="zoneState">ZONE SHRINKS IN</span><b id="zoneTimer">0:28</b></div>
+        <div class="zone-track"><i id="zoneProgress"></i></div>
+        <div class="zone-name"><span class="dot"></span> ISLA CALIENTE <span class="phase-tag" id="phaseTag">PHASE 1</span></div>
+      </div>
+      <div class="hud-right">
+        <div class="mini-map-wrap">
+          <canvas id="minimap" width="220" height="220"></canvas>
+          <div class="mini-map-grid"></div>
+          <div class="mini-map-label">N <span>ISLA CALIENTE</span></div>
+        </div>
+        <div class="hud-buttons">
+          <button class="hud-icon" id="pauseBtn" aria-label="Pause">
+            <svg viewBox="0 0 24 24"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg>
+          </button>
+          <button class="hud-icon" id="gameSound" aria-label="Toggle sound">
+            <svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="killFeed" class="kill-feed" aria-live="polite"></div>
+
+    <div id="statusToast" class="status-toast"></div>
+    <div id="pickupPrompt" class="pickup-prompt"><kbd>E</kbd><span></span></div>
+
+    <div class="hud-bottom">
+      <div class="vitals">
+        <div class="vital-row">
+          <span class="vital-icon health">+</span>
+          <div class="bar"><i id="healthBar"></i><em id="healthText">100</em></div>
+        </div>
+        <div class="vital-row small">
+          <span class="vital-icon armor">◆</span>
+          <div class="bar armor-bar"><i id="armorBar"></i><em id="armorText">0</em></div>
+        </div>
+        <div class="consumables">
+          <span class="consumable" id="medkitChip"><b>✚</b><small id="medkitCount">1</small></span>
+          <span class="consumable" id="glooChip"><b>◈</b><small id="glooCount">2</small></span>
+        </div>
+      </div>
+
+      <div class="weapon-panel">
+        <div class="weapon-slots">
+          <span class="slot active" id="slot1">1</span>
+          <span class="slot" id="slot2">2</span>
+        </div>
+        <div class="weapon-main">
+          <div class="weapon-icon" id="weaponIcon">
+            <svg viewBox="0 0 96 40" aria-hidden="true"><path d="M4 20h31l5-7h17l3 4h9v-3h10v8H56l-4 4H38l-4-3H4z" fill="currentColor"/><path d="M51 25h8v9h-7z" fill="currentColor" opacity=".7"/></svg>
+          </div>
+          <div class="weapon-info">
+            <span id="weaponClass">SIDEARM</span>
+            <b id="weaponName">P92 PISTOL</b>
+            <div class="ammo-line"><strong id="ammoMag">15</strong><span>/</span><small id="ammoReserve">60</small></div>
+          </div>
+        </div>
+        <div class="reload-wrap"><i id="reloadBar"></i></div>
+        <div class="weapon-hint" id="weaponHint">AUTO</div>
+      </div>
+
+      <div class="action-cluster desktop-actions">
+        <div class="action-hint"><kbd>H</kbd><span>HEAL</span></div>
+        <div class="action-hint"><kbd>R</kbd><span>RELOAD</span></div>
+        <div class="action-hint"><kbd>G</kbd><span>GLOO</span></div>
+        <div class="action-hint"><kbd>E</kbd><span>PICK UP</span></div>
+      </div>
+    </div>
+
+    <div id="crosshair" class="crosshair" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><span></span>
+    </div>
+    <div id="hitmarker" class="hitmarker" aria-hidden="true"></div>
+
+    <div class="mobile-controls" id="mobileControls">
+      <div class="joystick move-stick" id="moveStick"><div class="stick-ring"><i></i></div><span>MOVE</span></div>
+      <div class="joystick aim-stick" id="aimStick"><div class="stick-ring"><i></i></div><span>AIM</span></div>
+      <div class="mobile-actions">
+        <button id="mobileReload" class="mob-btn small" aria-label="Reload">R</button>
+        <button id="mobileHeal" class="mob-btn small" aria-label="Heal">✚</button>
+        <button id="mobilePickup" class="mob-btn small" aria-label="Pick up">E</button>
+        <button id="mobileGloo" class="mob-btn small" aria-label="Gloo wall">◈</button>
+        <button id="mobileFire" class="mob-btn fire" aria-label="Fire">FIRE</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="pause" class="modal pause-modal" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+    <div class="modal-card pause-card">
+      <div class="eyebrow">MATCH PAUSED</div>
+      <h2 id="pauseTitle">HOLD THE LINE</h2>
+      <p class="pause-sub">Take a breath, operator. The storm will wait — for now.</p>
+      <button class="deploy-btn compact" id="resumeBtn"><span class="deploy-label"><b>RESUME MATCH</b><small>BACK TO THE FIRE</small></span><span class="deploy-arrow">↗</span></button>
+      <button class="ghost-btn wide" id="quitBtn">ABANDON MATCH</button>
+      <div class="pause-controls"><span><kbd>ESC</kbd> RESUME</span><span><kbd>M</kbd> MUTE</span></div>
+    </div>
+  </div>
+
+  <div id="result" class="screen result-screen">
+    <div class="result-glow"></div>
+    <div class="result-card">
+      <div class="result-kicker" id="resultKicker">MATCH COMPLETE</div>
+      <h2 id="resultTitle">BOOYAH!</h2>
+      <p id="resultSub">You are the last operator standing.</p>
+      <div class="result-rank" id="resultRank">#1</div>
+      <div class="result-stats">
+        <div><span>ELIMINATIONS</span><b id="resultKills">0</b></div>
+        <div><span>DAMAGE</span><b id="resultDamage">0</b></div>
+        <div><span>SURVIVAL</span><b id="resultTime">0:00</b></div>
+        <div><span>PLACEMENT</span><b id="resultPlace">1 / 24</b></div>
+      </div>
+      <div class="result-actions">
+        <button class="deploy-btn compact" id="againBtn"><span class="deploy-label"><b>PLAY AGAIN</b><small>REDEPLOY TO THE ISLAND</small></span><span class="deploy-arrow">↗</span></button>
+        <button class="ghost-btn" id="menuBtn">MAIN MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="rotateHint" class="rotate-hint">Rotate your device for the best view</div>
+
+  <script src="./game.js"></script>
+</body>
+</html>
