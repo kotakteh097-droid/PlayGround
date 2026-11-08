@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0716">
+  <meta name="description" content="Sunset Run — a neon endless highway racer. Weave through traffic, chain near misses, and chase the horizon.">
+  <title>Sunset Run — Neon Highway Racer</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="game" class="game is-menu">
+    <canvas id="canvas" aria-label="Sunset Run racing game"></canvas>
+
+    <div class="atmosphere" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="frame" aria-hidden="true"></div>
+
+    <section id="hud" class="hud" aria-label="Race status">
+      <header class="hud-top">
+        <div class="hud-left">
+          <div class="logo"><span class="logo-sun"></span><span>SUNSET RUN</span><em>8.7</em></div>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-label">DISTANCE</span>
+              <strong><b id="distance">0.00</b><i>KM</i></strong>
+            </div>
+            <div class="stat score-stat">
+              <span class="stat-label">SCORE</span>
+              <strong id="score">000000</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud-right">
+          <div class="armor" aria-label="Armor remaining">
+            <span class="armor-label">ARMOR</span>
+            <div id="armorPips" class="armor-pips">
+              <i class="pip is-on"></i><i class="pip is-on"></i><i class="pip is-on"></i>
+            </div>
+          </div>
+          <button id="soundBtn" class="icon-btn" type="button" aria-label="Mute sound" title="Mute sound">
+            <svg class="ico ico-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path class="sound-wave" d="M16 8.2a5 5 0 0 1 0 7.6M18.8 5.5a8.6 8.6 0 0 1 0 13"/></svg>
+            <svg class="ico ico-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="m17 9 5 6m0-6-5 6"/></svg>
+          </button>
+          <button id="pauseBtn" class="icon-btn" type="button" aria-label="Pause" title="Pause">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM14 5h4v14h-4z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div id="combo" class="combo" aria-live="polite">
+        <span class="combo-kicker">NEAR MISS</span>
+        <strong>x<span id="comboValue">1</span></strong>
+        <div class="combo-line"><i id="comboFill"></i></div>
+      </div>
+
+      <div id="callout" class="callout" aria-live="polite"></div>
+
+      <div class="bottom-hud">
+        <div class="nitro-box">
+          <div class="nitro-head"><span>NITRO</span><b id="nitroPct">100%</b></div>
+          <div class="nitro-track"><div id="nitroFill" class="nitro-fill"></div><i class="nitro-sheen"></i></div>
+          <span class="nitro-hint">SPACE / HOLD</span>
+        </div>
+
+        <div class="speed-box">
+          <div class="speed-read"><span id="speed">000</span><small>KM/H</small></div>
+          <div class="speed-track"><i id="speedFill"></i></div>
+          <div class="speed-caption">TWIN TURBO <b>V8</b></div>
+        </div>
+      </div>
+
+      <div class="key-hints">
+        <span><kbd>←</kbd><kbd>→</kbd> STEER</span>
+        <span><kbd>↓</kbd> BRAKE</span>
+        <span><kbd>SPACE</kbd> NITRO</span>
+      </div>
+    </section>
+
+    <div id="touchControls" class="touch-controls" aria-label="Touch controls">
+      <div class="touch-steer">
+        <button class="touch-btn steer-btn" type="button" data-control="left" aria-label="Steer left">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+        </button>
+        <button class="touch-btn steer-btn" type="button" data-control="right" aria-label="Steer right">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+      <div class="touch-actions">
+        <button class="touch-btn brake-btn" type="button" data-control="brake" aria-label="Brake">
+          <span>BRK</span>
+        </button>
+        <button class="touch-btn nitro-btn" type="button" data-control="nitro" aria-label="Nitro">
+          <span>N2O</span>
+        </button>
+      </div>
+    </div>
+
+    <section id="startScreen" class="screen start-screen">
+      <div class="start-top">
+        <div class="mini-brand"><span class="logo-sun"></span> SUNSET RUN</div>
+        <div class="start-meta">MILE 000 <i></i> 08:42 PM</div>
+      </div>
+
+      <div class="hero">
+        <div class="eyebrow"><span class="eyebrow-line"></span> ENDLESS HIGHWAY // EST. 1987</div>
+        <h1>SUNSET<span class="title-outline">RUN</span></h1>
+        <p class="hero-copy">Chase the last light through a city that never quite sleeps.<br>Thread the traffic. Bank the near misses. Don’t touch the brakes.</p>
+
+        <div class="start-row">
+          <button id="startBtn" class="start-btn" type="button" aria-label="Start">
+            <span>START</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+          </button>
+          <div class="best-badge">
+            <span>PERSONAL BEST</span>
+            <strong id="menuBest">000000</strong>
+          </div>
+        </div>
+
+        <div class="menu-controls">
+          <span><kbd>WASD</kbd> / <kbd>ARROWS</kbd> TO DRIVE</span>
+          <span class="dot"></span>
+          <span><kbd>SPACE</kbd> NITRO</span>
+          <span class="dot"></span>
+          <span><kbd>P</kbd> PAUSE</span>
+        </div>
+      </div>
+
+      <div class="start-footer">
+        <div class="radio"><span class="radio-dot"></span> FM 98.7 — NIGHT DRIVE</div>
+        <div class="start-tip">TIP: SHAVE PAST TRAFFIC TO BUILD YOUR MULTIPLIER</div>
+        <div class="edition">2D ARCADE <b>01</b></div>
+      </div>
+
+      <div class="decor-sun" aria-hidden="true"><span></span></div>
+      <div class="decor-road" aria-hidden="true"></div>
+    </section>
+
+    <section id="gameOverScreen" class="screen dim-screen is-hidden" aria-labelledby="goTitle">
+      <div class="modal">
+        <div class="modal-kicker"><span></span> RUN COMPLETE</div>
+        <h2 id="goTitle">WRECKED<span>.</span></h2>
+        <p class="modal-copy" id="goCopy">The horizon got away this time.</p>
+
+        <div class="result-grid">
+          <div><span>SCORE</span><strong id="finalScore">000000</strong></div>
+          <div><span>DISTANCE</span><strong><b id="finalDistance">0.00</b><i>KM</i></strong></div>
+          <div><span>TOP SPEED</span><strong><b id="finalSpeed">0</b><i>KM/H</i></strong></div>
+          <div><span>NEAR MISSES</span><strong id="finalNear">0</strong></div>
+        </div>
+
+        <div id="newBest" class="new-best is-hidden"><span>★</span> NEW PERSONAL BEST <span>★</span></div>
+
+        <div class="modal-actions">
+          <button id="restartBtn" class="start-btn" type="button">
+            <span>RUN AGAIN</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 1-2.3-5.7M20 4v7h-7"/></svg>
+          </button>
+          <button id="menuBtn" class="ghost-btn" type="button">MAIN MENU</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="pauseScreen" class="screen dim-screen is-hidden" aria-labelledby="pauseTitle">
+      <div class="modal pause-modal">
+        <div class="modal-kicker"><span></span> ENGINE IDLING</div>
+        <h2 id="pauseTitle">PAUSED</h2>
+        <p class="modal-copy">Catch your breath. The road can wait.</p>
+        <div class="modal-actions">
+          <button id="resumeBtn" class="start-btn" type="button">
+            <span>RESUME</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg>
+          </button>
+          <button id="quitBtn" class="ghost-btn" type="button">END RUN</button>
+        </div>
+        <div class="pause-hint">PRESS <kbd>P</kbd> OR <kbd>ESC</kbd> TO RESUME</div>
+      </div>
+    </section>
+
+    <div id="flash" class="flash" aria-hidden="true"></div>
+  </main>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
