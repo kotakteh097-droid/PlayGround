@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#090b10" />
+  <meta name="description" content="Free Fire 3D — a fan-made, fast-paced battle royale arena in your browser." />
+  <title>FREE FIRE 3D — Bermuda Battle Royale</title>
+  <script type="module" crossorigin src="./assets/index-CCvaYy2W.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-iBL5FCCh.css">
+</head>
+<body>
+  <div id="app">
+    <canvas id="gl" aria-label="Free Fire 3D game viewport"></canvas>
+    <div class="screen-fx" aria-hidden="true">
+      <div class="fx-vignette"></div>
+      <div class="fx-grain"></div>
+      <div class="fx-scan"></div>
+    </div>
+
+    <div id="boot" class="boot">
+      <div class="boot-mark"><span>FF</span></div>
+      <div class="boot-name">FREE FIRE <b>3D</b></div>
+      <div class="boot-bar"><i></i></div>
+      <div class="boot-tip">DEPLOYING TO BERMUDA</div>
+    </div>
+
+    <!-- ============================== LOBBY ============================== -->
+    <section id="lobby" class="lobby" aria-label="Main lobby">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-icon">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M27 2 8 27h14l-3 19 21-28H26L27 2Z"/></svg>
+          </div>
+          <div class="brand-copy">
+            <div class="brand-title">FREE FIRE <span>3D</span></div>
+            <div class="brand-sub">BERMUDA // SEASON 08</div>
+          </div>
+        </div>
+
+        <div class="profile-cluster">
+          <div class="currency gold"><svg viewBox="0 0 24 24"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Zm0 3.2L18 8.5v7L12 18.8 6 15.5v-7l6-3.3Z"/></svg><span>12.4K</span><i>+</i></div>
+          <div class="currency gem"><svg viewBox="0 0 24 24"><path d="m12 2 8 7-8 13L4 9l8-7Zm0 4.3L8 9.4l4 7.2 4-7.2-4-3.1Z"/></svg><span>320</span><i>+</i></div>
+          <div class="player-card">
+            <div class="player-avatar"><span>R</span><b>42</b></div>
+            <div class="player-meta"><strong>RAVEN</strong><small>CONQUEROR</small></div>
+            <div class="online-dot"></div>
+          </div>
+          <button class="icon-btn" aria-label="Settings" id="settingsBtn">
+            <svg viewBox="0 0 24 24"><path d="M19.4 13a7.8 7.8 0 0 0 0-2l2-1.5-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3.5h-4L10.6 6a8 8 0 0 0-1.7 1l-2.4-1-2 3.4L6.6 11a7.8 7.8 0 0 0 0 2l-2 1.5 2 3.4 2.4-1a8 8 0 0 0 1.7 1l.4 2.6h4l.4-2.6a8 8 0 0 0 1.7-1l2.4 1 2-3.4-2.1-1.5ZM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="lobby-left">
+        <div class="season-pill"><i></i> NEW SEASON · APEX RISING</div>
+        <h1 class="lobby-tagline"><span>DROP.</span> LOOT.<br><em>WIN.</em></h1>
+        <p class="lobby-desc">One island. Ten fighters. Only one walks out with the Booyah.</p>
+        <div class="lobby-stats">
+          <div><strong>10</strong><span>PLAYERS</span></div>
+          <div><strong>1</strong><span>SURVIVOR</span></div>
+          <div><strong>∞</strong><span>GLORY</span></div>
+        </div>
+        <div class="daily-card">
+          <div class="daily-icon">★</div>
+          <div><small>DAILY MISSION</small><strong>Land 3 headshots</strong></div>
+          <div class="daily-progress"><i></i><span>0 / 3</span></div>
+        </div>
+      </div>
+
+      <aside class="lobby-right">
+        <div class="event-card">
+          <div class="event-art">
+            <div class="event-glyph">🔥</div>
+            <div class="event-glow"></div>
+          </div>
+          <div class="event-copy">
+            <small>LIMITED EVENT</small>
+            <strong>BOOYAH<br>RUSH</strong>
+            <span>ENDS IN 02D 14H</span>
+          </div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-head"><span>BOOYAH PASS</span><b>LV. 18</b></div>
+          <div class="pass-bar"><i></i></div>
+          <div class="pass-foot"><span>2,450 / 4,000 XP</span><span>+ FREE REWARD</span></div>
+        </div>
+      </aside>
+
+      <div class="agent-card">
+        <div class="agent-switch">
+          <button id="prevAgent" aria-label="Previous agent" class="chev">‹</button>
+          <span>AGENT <b id="agentIndex">01</b> / 03</span>
+          <button id="nextAgent" aria-label="Next agent" class="chev">›</button>
+        </div>
+        <div class="agent-name-row">
+          <h2 id="agentName">ALOK</h2>
+          <span id="agentRole">DJ / SPEED</span>
+        </div>
+        <p id="agentBio">Drop the beat, outrun the storm. ALOK moves faster after every takedown.</p>
+        <div class="agent-perks">
+          <div class="perk"><b id="perkSpeed">+6%</b><span>MOVE</span></div>
+          <div class="perk"><b id="perkArmor">+10%</b><span>ARMOR</span></div>
+          <div class="perk"><b id="perkReload">+5%</b><span>RELOAD</span></div>
+        </div>
+        <div class="agent-dots" id="agentDots">
+          <i class="active"></i><i></i><i></i>
+        </div>
+      </div>
+
+      <div class="deploy-panel">
+        <div class="map-mini">
+          <div class="map-grid"></div>
+          <div class="map-island"></div>
+          <div class="map-pin"></div>
+          <span>BERMUDA</span>
+        </div>
+        <div class="mode-copy">
+          <small>SELECTED MODE</small>
+          <strong>BATTLE ROYALE</strong>
+          <span>SOLO · 10 PLAYERS · RANKED</span>
+        </div>
+        <button id="startBtn" class="start-btn">
+          <span class="start-main">Start Game</span>
+          <span class="start-sub">ENTER BERMUDA</span>
+          <i class="start-shine"></i>
+        </button>
+      </div>
+
+      <div class="lobby-footer">
+        <span><i class="live-dot"></i> 2,481 PLAYERS ONLINE</span>
+        <span>FAN-MADE WEB EXPERIENCE · THREE.JS</span>
+        <span>v1.0.8</span>
+      </div>
+    </section>
+
+    <!-- ============================== HUD ============================== -->
+    <section id="hud" class="hud hidden" aria-label="Match HUD">
+      <div class="hud-top">
+        <div class="minimap-wrap">
+          <div class="minimap-head"><span>BERMUDA</span><b id="gridRef">D4</b></div>
+          <canvas id="minimap" width="320" height="320"></canvas>
+          <div class="minimap-ring"></div>
+          <div class="minimap-north">N</div>
+        </div>
+
+        <div class="match-readout">
+          <div class="compass">
+            <div class="compass-strip" id="compassStrip"></div>
+            <div class="compass-notch"></div>
+          </div>
+          <div class="match-stats">
+            <div class="stat"><small>ALIVE</small><strong id="aliveCount">10</strong></div>
+            <div class="stat danger"><small>ZONE</small><strong id="zoneTimer">00:30</strong></div>
+            <div class="stat"><small>KILLS</small><strong id="killCount">0</strong></div>
+          </div>
+        </div>
+
+        <div class="killfeed" id="killfeed"></div>
+        <div class="match-brand"><b>FF</b><span>BERMUDA<br><i>SOLO</i></span></div>
+      </div>
+
+      <div class="zone-warning" id="zoneWarning">
+        <b>⚠</b><span>RESTRICTED AREA</span><small>MOVE INTO THE SAFE ZONE</small>
+      </div>
+
+      <div id="enemyTags" class="enemy-tags"></div>
+      <div id="floaters" class="floaters"></div>
+
+      <div id="crosshair" class="crosshair">
+        <i class="ch t"></i><i class="ch r"></i><i class="ch b"></i><i class="ch l"></i>
+        <span class="ch-dot"></span>
+        <div class="hitmarker" id="hitmarker"><i></i><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="reload-ring hidden" id="reloadRing"><svg viewBox="0 0 60 60"><circle class="bg" cx="30" cy="30" r="25"></circle><circle id="reloadArc" class="arc" cx="30" cy="30" r="25"></circle></svg><span>RELOAD</span></div>
+      <div class="aim-tag hidden" id="aimTag">SCOPE</div>
+      <div class="hit-direction" id="hitDirection"></div>
+
+      <div class="hud-bottom">
+        <div class="player-hud">
+          <div class="hud-avatar"><span id="hudAvatarLetter">A</span><b>42</b></div>
+          <div class="player-bars">
+            <div class="player-name"><strong id="hudPlayerName">ALOK</strong><span>SOLO</span></div>
+            <div class="bar-row">
+              <div class="bar health"><i id="healthBar"></i><b id="healthText">100</b></div>
+              <span class="bar-icon">✚</span>
+            </div>
+            <div class="bar-row">
+              <div class="bar armor"><i id="armorBar"></i><b id="armorText">100</b></div>
+              <span class="bar-icon">◈</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-card" id="desktopHelp">
+          <span><b>WASD</b> MOVE</span><span><b>SHIFT</b> SPRINT</span><span><b>RMB</b> AIM</span><span><b>R</b> RELOAD</span><span><b>E</b> LOOT</span>
+        </div>
+
+        <div class="weapon-hud">
+          <div class="weapon-slot"><span>1</span><i></i><span>2</span></div>
+          <div class="weapon-info">
+            <div class="weapon-model" id="weaponIcon">
+              <svg viewBox="0 0 220 76" aria-hidden="true">
+                <path d="M11 34h146l18 8 31 4v10l-39 3-20-9H11zM55 51h46l-8 18H64zM151 34V22h17v12z" />
+                <path class="accent" d="M30 40h74v8H30zM177 46h22v6h-22z" />
+              </svg>
+            </div>
+            <div class="weapon-copy">
+              <small id="weaponType">ASSAULT RIFLE</small>
+              <strong id="weaponName">SCAR · SHADOW</strong>
+              <div class="ammo-line"><b id="ammoMag">30</b><span>/</span><i id="ammoReserve">120</i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loot-prompt hidden" id="lootPrompt"><b>E</b><span>EQUIP <strong id="lootName">MP40</strong></span></div>
+      <div class="pickup-toast hidden" id="pickupToast"></div>
+      <div class="center-announce" id="centerAnnounce"></div>
+      <div class="damage-vignette" id="damageVignette"></div>
+
+      <div class="mobile-ui" id="mobileUI">
+        <div class="joystick" id="joystick"><div class="stick-base"></div><div class="stick-knob" id="stickKnob"></div></div>
+        <div class="mobile-actions">
+          <button class="m-btn fire" id="fireBtn" aria-label="Fire">FIRE</button>
+          <button class="m-btn aim" id="aimBtn" aria-label="Aim">AIM</button>
+          <button class="m-btn reload" id="reloadBtn" aria-label="Reload">↻</button>
+          <button class="m-btn jump" id="jumpBtn" aria-label="Jump">↑</button>
+          <button class="m-btn swap" id="swapBtn" aria-label="Swap weapon">⇄</button>
+        </div>
+        <div class="look-hint">DRAG TO LOOK</div>
+      </div>
+    </section>
+
+    <div class="overlay hidden" id="resultOverlay">
+      <div class="result-card" id="resultCard">
+        <div class="result-kicker" id="resultKicker">MATCH COMPLETE</div>
+        <h2 id="resultTitle">BOOYAH!</h2>
+        <p id="resultSub">You are the last one standing.</p>
+        <div class="result-stats">
+          <div><strong id="resultKills">0</strong><span>ELIMINATIONS</span></div>
+          <div><strong id="resultDamage">0</strong><span>DAMAGE</span></div>
+          <div><strong id="resultRank">#1</strong><span>RANK</span></div>
+        </div>
+        <div class="result-actions">
+          <button id="againBtn" class="result-primary">Play Again</button>
+          <button id="lobbyBtn" class="result-secondary">Lobby</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <div class="pointer-hint hidden" id="pointerHint">CLICK TO LOCK AIM</div>
+  </div>
+</body>
+</html>
