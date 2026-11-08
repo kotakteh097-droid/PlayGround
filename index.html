@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#f6f1df" />
+  <title>Meadow &amp; Moon — A little farm life</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <div id="viewport" class="viewport" aria-label="3D farm game">
+      <div class="topbar">
+        <div class="brand"><div class="brand-icon">✿</div><div><div class="brand-title">meadow <span>&amp;</span> moon</div><div class="brand-subtitle">a little farm life</div></div></div>
+        <div class="day-card"><span class="sun-icon">☀</span><div><b id="seasonDay">Spring · Day 1</b><small id="weather">A sunny day</small></div></div>
+        <div class="time-card"><span>◷</span><b id="clock">6:00 AM</b></div>
+        <div class="wallet"><span class="coin">✦</span><b id="gold">120</b><small>g</small></div>
+      </div>
+      <div class="scene-hint" id="sceneHint"><span class="sparkle">✦</span> Welcome home, little farmer!</div>
+      <div class="right-tools">
+        <div class="tool-label">YOUR TOOLS</div>
+        <button class="tool active" data-tool="hoe" title="Hoe (1)"><span>⛏</span><b>Hoe</b><kbd>1</kbd></button>
+        <button class="tool" data-tool="seeds" title="Seeds (2)"><span>🌱</span><b>Seeds</b><kbd>2</kbd></button>
+        <button class="tool" data-tool="water" title="Water (3)"><span>💧</span><b>Water</b><kbd>3</kbd></button>
+        <button class="tool" data-tool="harvest" title="Harvest (4)"><span>🧺</span><b>Harvest</b><kbd>4</kbd></button>
+      </div>
+      <div class="bottom-ui">
+        <div class="status-card">
+          <div class="avatar">🌼</div><div class="status-info"><b>Farmer</b><div class="energy-label"><span>✦</span> <span id="energyText">100 / 100</span></div><div class="energy-track"><i id="energyBar"></i></div></div>
+          <div class="inventory"><div class="inventory-item"><span>🌱</span><b id="seedCount">8</b><small>seeds</small></div><div class="inventory-item"><span>🥕</span><b id="cropCount">0</b><small>turnips</small></div></div>
+        </div>
+        <div class="controls-card"><div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>Move</span></div><div><kbd>SPACE</kbd><span>Use tool</span></div><div><kbd>E</kbd><span>Interact</span></div></div>
+        <button class="journal-btn" id="journalBtn"><span>▤</span><b>Journal</b><kbd>J</kbd></button>
+      </div>
+      <div class="toast" id="toast"></div>
+      <div class="modal-backdrop open" id="modalBackdrop">
+        <section class="journal modal" id="journalModal" aria-label="Farm journal" style="display:none">
+          <button class="close-modal" id="closeJournal" aria-label="Close">×</button>
+          <div class="modal-kicker">YOUR LITTLE FARM</div><h1>Field notes</h1><p class="journal-intro">A new beginning, tucked between the hills and the sea.</p>
+          <div class="journal-row"><span>🌿</span><div><b>Today's plan</b><small>Prepare the soil, plant turnips, and give them a drink.</small></div></div>
+          <div class="journal-row"><span>🌱</span><div><b>Turnip seeds</b><small>Ready in 2 mornings · Sell for 35g each</small></div></div>
+          <div class="journal-row"><span>🛏️</span><div><b>When you're ready</b><small>Walk to your cottage and press E to sleep. The next day begins!</small></div></div>
+          <div class="journal-footer"><span>SEASON 01</span><b>SPRING • YEAR 1</b></div>
+        </section>
+        <section class="journal modal welcome-modal" id="welcomeModal" aria-label="Welcome to your farm">
+          <div class="welcome-art">🌱</div><div class="modal-kicker">A FRESH START</div><h1>Your own little<br/>corner of the world.</h1><p class="journal-intro">The old farm is yours now. The soil is waiting, the sun is warm, and there's nowhere else you need to be.</p>
+          <div class="welcome-tip"><span>✦</span><div><b>A tiny tip</b><small>Choose the hoe, then press <kbd>SPACE</kbd> near a patch of grass. Plant seeds and water them each morning.</small></div></div>
+          <button id="startGame" class="primary-btn">Let's get growing <span>→</span></button>
+        </section>
+      </div>
+      <div class="loading" id="loading"><div class="loading-flower">✿</div><b>Waking up the farm...</b></div>
+    </div>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
